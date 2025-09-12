@@ -11,7 +11,7 @@ public class BaseTest {
     @BeforeClass
     public void setup() {
         // Base URI from Endpoints
-        RestAssured.baseURI = "http://localhost:8080/api";
+        RestAssured.baseURI = "http://127.0.0.1:8000";
 
         // Enable logging for requests and responses
         RestAssured.filters(new RequestLoggingFilter(LogDetail.ALL), new ResponseLoggingFilter(LogDetail.ALL));
