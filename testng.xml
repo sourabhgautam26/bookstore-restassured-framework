@@ -4,7 +4,7 @@
 
     <test name="Auth Tests">
         <classes>
-            <class name="com.bookstore.api.tests.AuthTests"/>
+            <class name="com.bookstore.api.tests.BookTests"/>
         </classes>
     </test>
 
