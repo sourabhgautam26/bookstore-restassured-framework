@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Bookstore API Test Suite" parallel="false">
+    <listeners>
+        <listener class-name="com.bookstore.api.listener.AllureTestListener"/>
+    </listeners>
 
-    <test name="Auth Tests">
+    <test name="Book API Tests">
         <classes>
+            <class name="com.bookstore.api.tests.HealthCheckTest"/>
+            <class name="com.bookstore.api.tests.UserTests"/>
             <class name="com.bookstore.api.tests.BookTests"/>
         </classes>
     </test>
