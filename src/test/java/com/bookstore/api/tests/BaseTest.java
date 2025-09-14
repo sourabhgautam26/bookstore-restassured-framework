@@ -3,7 +3,7 @@ package com.bookstore.api.tests;
 import com.bookstore.api.factory.DataFactory;
 import com.bookstore.api.payloads.UserPayload;
 import com.bookstore.api.utils.ConfigReader;
-import com.bookstore.api.utils.ApiEndpoints;
+import com.bookstore.api.utils.Endpoints;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -33,7 +33,7 @@ public class BaseTest {
                 .spec(requestSpec)
                 .body(testUser)
                 .when()
-                .post(ApiEndpoints.SIGNUP);
+                .post(Endpoints.SIGN_UP);
 
         int status = signupResp.getStatusCode();
         switch (status) {
@@ -47,7 +47,7 @@ public class BaseTest {
                 .spec(requestSpec)
                 .body(testUser)
                 .when()
-                .post(ApiEndpoints.LOGIN);
+                .post(Endpoints.LOGIN);
 
         loginResp.then().statusCode(200);
         token = loginResp.jsonPath().getString("access_token");

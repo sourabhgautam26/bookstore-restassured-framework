@@ -5,6 +5,7 @@ import com.bookstore.api.payloads.BookPayload;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import com.bookstore.api.utils.Endpoints;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class BookTests extends BaseTest {
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
                 .body(book)
-                .post("/books/")
+                .post(Endpoints.ADD_NEW_BOOK)
                 .then()
                 .statusCode(200)
                 .extract()
@@ -30,7 +31,7 @@ public class BookTests extends BaseTest {
         return given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
-                .get("/books/" + bookId)
+                .get(Endpoints.getBookById(bookId))
                 .then()
                 .extract()
                 .response();
@@ -70,7 +71,7 @@ public class BookTests extends BaseTest {
         Response resp = given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
-                .get("/books")
+                .get(Endpoints.GET_ALL_BOOKS)
                 .then()
                 .statusCode(200)
                 .extract()
@@ -99,7 +100,7 @@ public class BookTests extends BaseTest {
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
                 .body(updatedBook)
-                .put("/books/" + bookId)
+                .put(Endpoints.updateBook(bookId))
                 .then()
                 .statusCode(200)
                 .extract()
@@ -119,7 +120,7 @@ public class BookTests extends BaseTest {
         given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
-                .delete("/books/" + bookId)
+                .delete(Endpoints.deleteBook(bookId))
                 .then()
                 .statusCode(200);
 
@@ -127,7 +128,7 @@ public class BookTests extends BaseTest {
         given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
-                .get("/books/" + bookId)
+                .get(Endpoints.deleteBook(bookId))
                 .then()
                 .statusCode(404)
                 .body("detail", containsString("Book not found"));
@@ -142,7 +143,7 @@ public class BookTests extends BaseTest {
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
                 .body(book)
-                .put("/books/999999")
+                .put(Endpoints.updateBook(99999))
                 .then()
                 .statusCode(404)
                 .body("detail", containsString("Book not found"));
@@ -153,7 +154,7 @@ public class BookTests extends BaseTest {
         given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
-                .delete("/books/999999")
+                .delete(Endpoints.deleteBook(9999))
                 .then()
                 .statusCode(404)
                 .body("detail", containsString("Book not found"));
@@ -164,7 +165,7 @@ public class BookTests extends BaseTest {
         given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer " + token)
-                .get("/books/999999")
+                .get(Endpoints.getBookById(9999))
                 .then()
                 .statusCode(404)
                 .body("detail", containsString("Book not found"));
@@ -178,7 +179,7 @@ public class BookTests extends BaseTest {
                 .spec(requestSpec)
                 .header("Authorization", "Bearer INVALID_TOKEN")
                 .body(book)
-                .post("/books/")
+                .post(Endpoints.ADD_NEW_BOOK)
                 .then()
                 .statusCode(403)
                 .body("detail", containsString("Invalid token or expired token"));
@@ -192,7 +193,7 @@ public class BookTests extends BaseTest {
         given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer INVALID_TOKEN")
-                .get("/books/" + bookId)
+                .get(Endpoints.getBookById(bookId))
                 .then()
                 .statusCode(403)
                 .body("detail", containsString("Invalid token or expired token"));
@@ -215,7 +216,7 @@ public class BookTests extends BaseTest {
                 .spec(requestSpec)
                 .header("Authorization", "Bearer INVALID_TOKEN")
                 .body(updatedBook)
-                .put("/books/" + bookId)
+                .put(Endpoints.updateBook(bookId))
                 .then()
                 .statusCode(403)
                 .body("detail", containsString("Invalid token or expired token"));
@@ -229,7 +230,7 @@ public class BookTests extends BaseTest {
         given()
                 .spec(requestSpec)
                 .header("Authorization", "Bearer INVALID_TOKEN")
-                .delete("/books/" + bookId)
+                .delete(Endpoints.deleteBook(bookId))
                 .then()
                 .statusCode(403)
                 .body("detail", containsString("Invalid token or expired token"));
